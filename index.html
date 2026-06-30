@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse Assessments | Utkrusht</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__brand">
+        <img src="https://placehold.co/120x36/4f46e5/ffffff?text=Utkrusht" alt="Utkrusht logo" width="120" height="36" />
+      </div>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="#">Home</a>
+        <a href="#" aria-current="page">Browse</a>
+        <a href="#">My Profile</a>
+      </nav>
+    </header>
+
+    <main class="page-main">
+      <section class="search-section">
+        <h1 class="search-section__heading">Find a Skill Assessment</h1>
+        <p class="search-section__sub">Search by domain, technology, or role to find the right assessment for you.</p>
+
+        <div class="search-section__bar">
+          Topic
+          <input type="text" id="topic-input" placeholder="e.g. Machine Learning, DevOps" />
+          <button id="search-btn">Search</button>
+        </div>
+
+        <div id="search-error" class="search-section__error"></div>
+      </section>
+
+      <section class="results-section">
+        <div id="loader" class="loader" hidden>Loading assessments…</div>
+        <div id="results-container">
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; 2025 Utkrusht Technologies Pvt. Ltd. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
