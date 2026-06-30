@@ -32,38 +32,63 @@ const loader = document.getElementById("loader");
 const resultsContainer = document.getElementById("results-container");
 const searchError = document.getElementById("search-error");
 
-topicInput.addEventListener("input", () => {
-  searchAssessments();
-});
-
 function searchAssessments() {
   const topic = topicInput.value;
 
   loader.hidden = false;
   searchError.textContent = "";
   resultsContainer.innerHTML = "";
+  resultsContainer.setAttribute("aria-busy", "true");
 
   fakeFetch(topic)
     .then((assessments) => {
       loader.hidden = true;
-
-      assessments.forEach((assessment) => {
-        const card = document.createElement("div");
-        card.innerHTML = `
-          <div>${assessment.title}</div>
-          <div>${assessment.domain}</div>
-          <div>${assessment.duration} &bull; ${assessment.level}</div>
-        `;
-        resultsContainer.appendChild(card);
-      });
+      resultsContainer.removeAttribute("aria-busy");
 
       if (assessments.length === 0) {
-        const empty = document.createElement("div");
+        const empty = document.createElement("p");
+        empty.className = "results-empty";
         empty.textContent = "No assessments found. Try a different keyword.";
         resultsContainer.appendChild(empty);
+        return;
       }
+
+      const announcement = document.createElement("p");
+      announcement.className = "visually-hidden";
+      announcement.textContent = `${assessments.length} assessment${
+        assessments.length === 1 ? "" : "s"
+      } found.`;
+
+      const list = document.createElement("ul");
+      list.className = "results-list";
+
+      assessments.forEach((assessment) => {
+        const item = document.createElement("li");
+        item.className = "assessment-card";
+        item.innerHTML = `
+          <h3 class="assessment-card__title">${assessment.title}</h3>
+          <p class="assessment-card__domain">${assessment.domain}</p>
+          <p class="assessment-card__meta">${assessment.duration} &bull; ${assessment.level}</p>
+        `;
+        list.appendChild(item);
+      });
+
+      resultsContainer.appendChild(announcement);
+      resultsContainer.appendChild(list);
     })
     .catch((err) => {
+      loader.hidden = true;
+      resultsContainer.removeAttribute("aria-busy");
       resultsContainer.innerHTML = "";
+      searchError.textContent =
+        "Unable to load assessments. Please check your connection and try again.";
     });
 }
+
+searchBtn.addEventListener("click", searchAssessments);
+
+topicInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    searchAssessments();
+  }
+});

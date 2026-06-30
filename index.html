@@ -24,18 +24,23 @@
         <p class="search-section__sub">Search by domain, technology, or role to find the right assessment for you.</p>
 
         <div class="search-section__bar">
-          Topic
+          <label for="topic-input">Topic</label>
           <input type="text" id="topic-input" placeholder="e.g. Machine Learning, DevOps" />
-          <button id="search-btn">Search</button>
+          <button id="search-btn" type="button">Search</button>
         </div>
 
         <div id="search-error" class="search-section__error"></div>
       </section>
 
-      <section class="results-section">
+      <section class="results-section" aria-labelledby="results-heading">
+        <h2 id="results-heading" class="visually-hidden">Search results</h2>
         <div id="loader" class="loader" hidden>Loading assessments…</div>
-        <div id="results-container">
-        </div>
+        <div
+          id="results-container"
+          role="region"
+          aria-live="polite"
+          aria-labelledby="results-heading"
+        ></div>
       </section>
     </main>
 
